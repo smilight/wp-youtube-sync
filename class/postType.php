@@ -5,9 +5,9 @@ abstract class WPYS_Post_Type {
 
 // Set UI labels for Custom Post Type
 		$labels = array(
-			'name'               => _x( 'Videos', 'Post Type General Name', 'wp-youtube-sync' ),
+			'name'               => _x( 'Youtube Videos', 'Post Type General Name', 'wp-youtube-sync' ),
 			'singular_name'      => _x( 'Video', 'Post Type Singular Name', 'wp-youtube-sync' ),
-			'menu_name'          => __( 'Videos', 'wp-youtube-sync' ),
+			'menu_name'          => __( 'Youtube Videos', 'wp-youtube-sync' ),
 			'parent_item_colon'  => __( 'Parent Video', 'wp-youtube-sync' ),
 			'all_items'          => __( 'All Videos', 'wp-youtube-sync' ),
 			'view_item'          => __( 'View Video', 'wp-youtube-sync' ),
@@ -38,7 +38,7 @@ abstract class WPYS_Post_Type {
 				'custom-fields',
 			),
 			// You can associate this CPT with a taxonomy or custom taxonomy.
-			'taxonomies'          => array( 'genres' ),
+			'taxonomies'          => array( 'category_youtubeChanel' ),
 			/* A hierarchical CPT is like Pages and can have
 			* Parent and child items. A non-hierarchical CPT
 			* is like Posts.

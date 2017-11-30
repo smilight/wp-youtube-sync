@@ -1,9 +1,15 @@
 <?php
 
+define( 'WPYS_OPTIONS_KEY', 'wpys_options' );
+define( 'WPYS_METABOX_KEY', 'wpys_meta' );
+
 require_once( __DIR__ . '/vendor/autoload.php' );
 
-require_once(__DIR__ .'/class/postType.php');
-require_once(__DIR__ .'/class/metabox.php');
+require_once( __DIR__ . '/class/options.php' );
+require_once( __DIR__ . '/class/postType.php' );
+require_once( __DIR__ . '/class/metabox.php' );
+require_once( __DIR__ . '/class/taxonomy.php' );
+require_once( __DIR__ . '/class/post.php' );
 
 use Madcoda\Youtube\Youtube;
 
@@ -20,36 +26,30 @@ Version: 1.0
 Author URI: https://paaw.pro/
 */
 
-/*
-* Creating a function to create our CPT
-*/
+function wp_youtube_sync_init() {
 
-function hello_dolly() {
+	if(isset($_POST['do_sync'])){
+		$youtube = new Youtube( array( 'key' => WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_api_key' ) ) );
 
-	$API_key   = 'AIzaSyDrxR5gZ7YC7_zB0rQsjcnkCEnw5AAR0TA';
-	$channelID = 'UC5V8mErVFOpcQXEb3y9IMZw';
-	$maxResults = 10;
+		$channel        = $youtube->getChannelByName( WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_channel' ) );
+		$playlists      = $youtube->getPlaylistsByChannelId( $channel->id );
+		$playlist_items = $youtube->getPlaylistItemsByPlaylistId( $playlists[0]->id );
 
-	$youtube = new Youtube(array('key' => $API_key));
+		$count = 0;
+		foreach ( $playlist_items as $playlist_item ) {
+			if ( $count > 3 ) {
+				break;
+			}
 
-	$channel = $youtube->getChannelByName('RadaTVchannel');
-	$results = $youtube->getPlaylistsByChannelId($channel->id);
+			WPYS_Post::add($playlist_item);
+			$count ++;
 
-	var_dump($results);
+		}
 
-//	$videoList = json_decode( file_get_contents( 'https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=' . $channelID . '&maxResults=' . $maxResults . '&key=' . $API_key . '' ) );
-//	var_dump($videoList);
-//	foreach ( $videoList->items as $item ) {
-//		Embed video
-//		if ( isset( $item->id->videoId ) ) {
-//			echo '<div class="youtube-video">
-//                <iframe width="280" height="150" src="https://www.youtube.com/embed/' . $item->id->videoId . '" frameborder="0" allowfullscreen></iframe>
-//                <h2>' . $item->snippet->title . '</h2>
-//            </div>';
-//		}
-//	}
+	}
+
 }
 
-add_action( 'admin_notices', 'hello_dolly' );
+add_action( 'admin_init', 'wp_youtube_sync_init' );
 
 ?>

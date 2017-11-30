@@ -1,40 +1,75 @@
 <?php
 
 abstract class WPYS_Meta_Box {
+
+	public static $optionsKey = WPYS_METABOX_KEY;
+
 	public static function add() {
-		$screens = [ 'post', 'youtube_video' ];
-		foreach ( $screens as $screen ) {
-			add_meta_box(
-				'youtubeVideoId',          // Unique ID
-				'Youtube Video Id', // Box title
-				[ self::class, 'html' ],   // Content callback, must be of type callable
-				$screen                  // Post type
-			);
-		}
+
+		$cmb = new_cmb2_box( array(
+			'id'            => 'wpys_metabox',
+			'title'         => __( 'Youtube Video Metadata', 'cmb2' ),
+			'object_types'  => array( 'youtube_video' ), // Post type
+			'context'       => 'side',
+			'priority'      => 'high',
+			'show_names'    => false,
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Video Id', 'cmb2' ),
+			'desc'       => __( 'Youtube video id', 'cmb2' ),
+			'id'         => self::$optionsKey . '_videoId',
+			'type'       => 'text',
+			'attributes' => array(
+				'placeholder'=>'Video Id',
+//				'disabled' => 'disabled',
+//				'readonly' => 'readonly',
+			)
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Playlist Id', 'cmb2' ),
+			'desc'       => __( 'Youtube video playlist id', 'cmb2' ),
+			'id'         => self::$optionsKey . '_playlistId',
+			'type'       => 'text',
+			'attributes' => array(
+				'placeholder'=>'Playlist Id',
+				'disabled' => 'disabled',
+				'readonly' => 'readonly',
+			)
+
+		) );
+
+		// URL text field
+		$cmb->add_field( array(
+			'name' => __( 'Thumbnail URL', 'cmb2' ),
+			'desc' => __( 'Video thumbnail (standart one)', 'cmb2' ),
+			'id'   => self::$optionsKey . '_thumbnailUrl',
+			'type' => 'text_url',
+			'attributes' => array(
+				'placeholder'=>'Thumbnail URL',
+				'disabled' => 'disabled',
+				'readonly' => 'readonly',
+			)
+		) );
+
 	}
 
-	public static function save( $post_id ) {
-		if ( array_key_exists( 'youtubeVideoId', $_POST ) ) {
-			update_post_meta(
-				$post_id,
-				'_youtubeVideoId',
-				$_POST['youtubeVideoId']
-			);
+	public static function get_option( $key = '', $default = false ) {
+		if ( function_exists( 'cmb2_get_option' ) ) {
+			return cmb2_get_option( self::$optionsKey, $key, $default );
 		}
-	}
+		// Fallback to get_option if CMB2 is not loaded yet.
+		$opts = get_option( self::$optionsKey, $default );
+		$val  = $default;
+		if ( 'all' == $key ) {
+			$val = $opts;
+		} elseif ( is_array( $opts ) && array_key_exists( $key, $opts ) && false !== $opts[ $key ] ) {
+			$val = $opts[ $key ];
+		}
 
-	public static function html( $post ) {
-		$value = get_post_meta( $post->ID, '_youtubeVideoId', true );
-		?>
-        <label for="youtubeVideoId">Description for this field</label>
-        <select name="youtubeVideoId" id="youtubeVideoId" class="postbox">
-            <option value="">Select something...</option>
-            <option value="something" <?php selected( $value, 'something' ); ?>>Something</option>
-            <option value="else" <?php selected( $value, 'else' ); ?>>Else</option>
-        </select>
-		<?php
+		return $val;
 	}
 }
 
-add_action( 'add_meta_boxes', [ 'WPYS_Meta_Box', 'add' ] );
-add_action( 'save_post', [ 'WPYS_Meta_Box', 'save' ] );
+add_action( 'cmb2_admin_init', [ 'WPYS_Meta_Box', 'add' ] );
