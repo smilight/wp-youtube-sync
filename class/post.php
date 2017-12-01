@@ -1,10 +1,17 @@
 <?php
 
+use Madcoda\Youtube\Youtube;
 
 abstract class WPYS_Post {
 	public static function add( $playlist_item ) {
 
+		$youtube = new Youtube( array( 'key' => WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_api_key' ) ) );
+
 		$videoId = $playlist_item->snippet->resourceId->videoId;
+
+		$playlistId = $playlist_item->snippet->playlistId;
+
+		$catExist = 1;
 
 		$videoPost = [
 			'post_title'   => $playlist_item->snippet->title,
@@ -13,6 +20,11 @@ abstract class WPYS_Post {
 			'post_type'    => 'youtube_video',
 			'post_author'  => 1
 		];
+
+		if ( WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_create_playlists' ) === 'yes' ) {
+			$catExist                   = WPYS_Taxonomy::checkExist( $youtube->getPlaylistById( $playlistId )->snippet->title );
+			$videoPost['post_category'] = intval( $catExist );
+		}
 
 		$image = $playlist_item->snippet->thumbnails->high->url;
 
@@ -25,9 +37,14 @@ abstract class WPYS_Post {
 			WPYS_Post::addFeaturedImage( $image, $postId );
 
 			add_post_meta( $postId, WPYS_METABOX_KEY . '_videoId', $videoId, true );
-			add_post_meta( $postId, WPYS_METABOX_KEY . '_playlistId', $playlist_item->snippet->playlistId, false );
+			add_post_meta( $postId, WPYS_METABOX_KEY . '_playlistId', $playlistId, false );
 			add_post_meta( $postId, WPYS_METABOX_KEY . '_thumbnailUrl', $image, false );
-		} elseif ( WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_overwrite' ) === 'on' && $exist ) {
+
+			if ( WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_create_playlists' ) === 'yes' ) {
+				WPYS_Taxonomy::addToPost( $postId, $catExist );
+			}
+
+		} elseif ( WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_overwrite' ) === 'yes' && $exist ) {
 
 			$videoPost['ID'] = $exist;
 

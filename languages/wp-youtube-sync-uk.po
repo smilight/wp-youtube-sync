@@ -1,0 +1,209 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Youtube sync\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-01 00:50+0000\n"
+"PO-Revision-Date: 2017-12-01 00:51+0000\n"
+"Last-Translator: admin <shensi@ukr.net>\n"
+"Language-Team: \n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: class/postType.php:7
+msgctxt "Post Type General Name"
+msgid "Youtube Videos"
+msgstr ""
+
+#: class/postType.php:8
+msgctxt "Post Type Singular Name"
+msgid "Video"
+msgstr ""
+
+#: class/postType.php:9
+msgid "Youtube Videos"
+msgstr ""
+
+#: class/postType.php:10
+msgid "Parent Video"
+msgstr ""
+
+#: class/postType.php:11
+msgid "All Videos"
+msgstr ""
+
+#: class/postType.php:12
+msgid "View Video"
+msgstr ""
+
+#: class/postType.php:13
+msgid "Add New Video"
+msgstr ""
+
+#: class/postType.php:14
+msgid "Add New"
+msgstr ""
+
+#: class/postType.php:15
+msgid "Edit Video"
+msgstr ""
+
+#: class/postType.php:16
+msgid "Update Video"
+msgstr ""
+
+#: class/postType.php:17
+msgid "Search Video"
+msgstr ""
+
+#: class/postType.php:18
+msgid "Not Found"
+msgstr ""
+
+#: class/postType.php:19
+msgid "Not found in Trash"
+msgstr ""
+
+#: class/postType.php:23
+msgid "movies"
+msgstr ""
+
+#: class/postType.php:24
+msgid "Video news and reviews"
+msgstr ""
+
+#: class/taxonomy.php:29 class/taxonomy.php:37
+msgid "Playlists"
+msgstr ""
+
+#: class/taxonomy.php:30
+msgid "Playlist"
+msgstr ""
+
+#: class/taxonomy.php:31
+msgid "Search Playlist"
+msgstr ""
+
+#: class/taxonomy.php:32
+msgid "All Playlists"
+msgstr ""
+
+#: class/taxonomy.php:33
+msgid "Edit Playlist"
+msgstr ""
+
+#: class/taxonomy.php:34
+msgid "Update Playlist"
+msgstr ""
+
+#: class/taxonomy.php:35
+msgid "Add New Playlist"
+msgstr ""
+
+#: class/taxonomy.php:36
+msgid "New Playlist Name"
+msgstr ""
+
+#: class/taxonomy.php:38
+msgid "View Playlist"
+msgstr ""
+
+#: class/taxonomy.php:39
+msgid "Popular Playlists"
+msgstr ""
+
+#: class/taxonomy.php:40
+msgid "Separate Playlists with commas"
+msgstr ""
+
+#: class/taxonomy.php:41
+msgid "Add or remove playlists"
+msgstr ""
+
+#: class/taxonomy.php:42
+msgid "Choose from the most used playlists"
+msgstr ""
+
+#: class/taxonomy.php:43
+msgid "No playlists found"
+msgstr ""
+
+#: class/metabox.php:11
+msgid "Youtube Video Metadata"
+msgstr ""
+
+#: class/metabox.php:19
+msgid "Video Id"
+msgstr ""
+
+#: class/metabox.php:20
+msgid "Youtube video id"
+msgstr ""
+
+#: class/metabox.php:30
+msgid "Playlist Id"
+msgstr ""
+
+#: class/metabox.php:31
+msgid "Youtube video playlist id"
+msgstr ""
+
+#: class/metabox.php:43
+msgid "Thumbnail URL"
+msgstr ""
+
+#: class/metabox.php:44
+msgid "Video thumbnail (standard one)"
+msgstr ""
+
+#: class/options.php:11 class/options.php:14
+msgid "Options"
+msgstr ""
+
+#: class/options.php:19
+msgid "Youtube API Key"
+msgstr ""
+
+#: class/options.php:25
+msgid "Youtube Channel Name"
+msgstr ""
+
+#: class/options.php:31
+msgid "Create playlists in WP? "
+msgstr ""
+
+#: class/options.php:36 class/options.php:48
+msgid "Yes"
+msgstr ""
+
+#: class/options.php:37 class/options.php:49
+msgid "No"
+msgstr ""
+
+#: class/options.php:43
+msgid "Override items? "
+msgstr ""
+
+#. Name of the plugin
+msgid "WP Youtube sync"
+msgstr ""
+
+#. Description of the plugin
+msgid "TODO: description"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://paaw.pro/plugins/wp-youtube-sync"
+msgstr ""
+
+#. Author of the plugin
+msgid "Oleksii Pershin"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://paaw.pro/"
+msgstr ""

@@ -7,33 +7,31 @@ abstract class WPYS_Meta_Box {
 	public static function add() {
 
 		$cmb = new_cmb2_box( array(
-			'id'            => 'wpys_metabox',
-			'title'         => __( 'Youtube Video Metadata', 'cmb2' ),
-			'object_types'  => array( 'youtube_video' ), // Post type
-			'context'       => 'side',
-			'priority'      => 'high',
-			'show_names'    => false,
+			'id'           => 'wpys_metabox',
+			'title'        => __( 'Youtube Video Metadata', 'wp-youtube-sync' ),
+			'object_types' => array( 'youtube_video' ),
+			'context'      => 'side',
+			'priority'     => 'high',
+			'show_names'   => false,
 		) );
 
 		$cmb->add_field( array(
-			'name'       => __( 'Video Id', 'cmb2' ),
-			'desc'       => __( 'Youtube video id', 'cmb2' ),
+			'name'       => __( 'Video Id', 'wp-youtube-sync' ),
+			'desc'       => __( 'Youtube video id', 'wp-youtube-sync' ),
 			'id'         => self::$optionsKey . '_videoId',
 			'type'       => 'text',
 			'attributes' => array(
-				'placeholder'=>'Video Id',
-//				'disabled' => 'disabled',
-//				'readonly' => 'readonly',
+				'disabled' => 'disabled',
+				'readonly' => 'readonly',
 			)
 		) );
 
 		$cmb->add_field( array(
-			'name'       => __( 'Playlist Id', 'cmb2' ),
-			'desc'       => __( 'Youtube video playlist id', 'cmb2' ),
+			'name'       => __( 'Playlist Id', 'wp-youtube-sync' ),
+			'desc'       => __( 'Youtube video playlist id', 'wp-youtube-sync' ),
 			'id'         => self::$optionsKey . '_playlistId',
 			'type'       => 'text',
 			'attributes' => array(
-				'placeholder'=>'Playlist Id',
 				'disabled' => 'disabled',
 				'readonly' => 'readonly',
 			)
@@ -42,12 +40,11 @@ abstract class WPYS_Meta_Box {
 
 		// URL text field
 		$cmb->add_field( array(
-			'name' => __( 'Thumbnail URL', 'cmb2' ),
-			'desc' => __( 'Video thumbnail (standart one)', 'cmb2' ),
-			'id'   => self::$optionsKey . '_thumbnailUrl',
-			'type' => 'text_url',
+			'name'       => __( 'Thumbnail URL', 'wp-youtube-sync' ),
+			'desc'       => __( 'Video thumbnail (standard one)', 'wp-youtube-sync' ),
+			'id'         => self::$optionsKey . '_thumbnailUrl',
+			'type'       => 'text_url',
 			'attributes' => array(
-				'placeholder'=>'Thumbnail URL',
 				'disabled' => 'disabled',
 				'readonly' => 'readonly',
 			)

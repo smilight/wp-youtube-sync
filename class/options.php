@@ -27,24 +27,34 @@ abstract class WPYS_Options {
 			'type' => 'text',
 		] );
 
-		$cmb_options->add_field([
-			'name' => __('Overwrite posts ', 'wp-youtube-sync'),
-			'id' => self::$adminOptionKey . '_overwrite',
-			'type' => 'checkbox',
-			'default' => 'off'
-		]);
+		$cmb_options->add_field( [
+			'name'    => __( 'Create playlists in WP? ', 'wp-youtube-sync' ),
+			'id'      => self::$adminOptionKey . '_create_playlists',
+			'type'    => 'radio',
+			'default' => 'no',
+			'options' => array(
+				'yes' => esc_html__( 'Yes', 'wp-youtube-sync' ),
+				'no'  => esc_html__( 'No', 'wp-youtube-sync' ),
+			)
 
-		$cmb_options->add_field([
-			'name' => __('Create playlists in WP? ', 'wp-youtube-sync'),
-			'id' => self::$adminOptionKey . '_create_playlists',
-			'type' => 'checkbox',
-			'default' => 'off'
-		]);
+		] );
+
+		$cmb_options->add_field( [
+			'name'    => __( 'Override items? ', 'wp-youtube-sync' ),
+			'id'      => self::$adminOptionKey . '_overwrite',
+			'type'    => 'radio',
+			'default' => 'no',
+			'options' => array(
+				'yes' => esc_html__( 'Yes', 'wp-youtube-sync' ),
+				'no'  => esc_html__( 'No', 'wp-youtube-sync' ),
+			)
+
+		] );
 
 	}
 
 	public static function get_option( $key = '', $default = false ) {
-		var_dump(self::$adminOptionKey);
+		var_dump( self::$adminOptionKey );
 		if ( function_exists( 'cmb2_get_option' ) ) {
 			return cmb2_get_option( self::$adminOptionKey, $key, $default );
 		}

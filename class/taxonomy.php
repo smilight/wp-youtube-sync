@@ -1,31 +1,52 @@
 <?php
 
 
-abstract class WPYS_Taxonomy{
-	public static function add(){
+abstract class WPYS_Taxonomy {
+	public static function addToPost( $postId, $termId ) {
+		wp_set_post_terms( $postId, [ intval( $termId ) ], 'category_youtubeChanel' );
+	}
+
+	public static function add() {
+
+	}
+
+	public static function checkExist( $termName ) {
+
+		$term = term_exists( $termName, 'category_youtubeChanel' );
+
+		if ( $term !== 0 && $term !== null ) {
+			return $term['term_id'];
+		} else {
+			$newTerm = wp_insert_term( $termName, 'category_youtubeChanel' );
+
+			return $newTerm['term_id'];
+		}
+	}
+
+	public static function init() {
 
 		$labels = array(
-			'name'                           => __('Playlists'),
-			'singular_name'                  => __('Playlist'),
-			'search_items'                   => __('Search Playlist'),
-			'all_items'                      => __('All Playlists'),
-			'edit_item'                      => __('Edit Playlist'),
-			'update_item'                    => __('Update Playlist'),
-			'add_new_item'                   => __('Add New Playlist'),
-			'new_item_name'                  => __('New Playlist Name'),
-			'menu_name'                      => __('Playlists'),
-			'view_item'                      => __('View Playlist'),
-			'popular_items'                  => __('Popular Playlists'),
-			'separate_items_with_commas'     => __('Separate playlists with commas'),
-			'add_or_remove_items'            => __('Add or remove athletes'),
-			'choose_from_most_used'          => 'Choose from the most used athletes',
-			'not_found'                      => 'No athletes found'
+			'name'                       => __( 'Playlists', 'wp-youtube-sync' ),
+			'singular_name'              => __( 'Playlist', 'wp-youtube-sync' ),
+			'search_items'               => __( 'Search Playlist', 'wp-youtube-sync' ),
+			'all_items'                  => __( 'All Playlists', 'wp-youtube-sync' ),
+			'edit_item'                  => __( 'Edit Playlist', 'wp-youtube-sync' ),
+			'update_item'                => __( 'Update Playlist', 'wp-youtube-sync' ),
+			'add_new_item'               => __( 'Add New Playlist', 'wp-youtube-sync' ),
+			'new_item_name'              => __( 'New Playlist Name', 'wp-youtube-sync' ),
+			'menu_name'                  => __( 'Playlists', 'wp-youtube-sync' ),
+			'view_item'                  => __( 'View Playlist', 'wp-youtube-sync' ),
+			'popular_items'              => __( 'Popular Playlists', 'wp-youtube-sync' ),
+			'separate_items_with_commas' => __( 'Separate Playlists with commas', 'wp-youtube-sync' ),
+			'add_or_remove_items'        => __( 'Add or remove playlists', 'wp-youtube-sync' ),
+			'choose_from_most_used'      => __( 'Choose from the most used playlists', 'wp-youtube-sync' ),
+			'not_found'                  => __( 'No playlists found', 'wp-youtube-sync' )
 		);
 
 		$options = [
-			'hierarchical' => true,
-			'labels' => $labels,
-			'query_var' => true,
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'query_var'         => true,
 			'show_admin_column' => true
 		];
 
@@ -37,4 +58,4 @@ abstract class WPYS_Taxonomy{
 	}
 }
 
-add_action( 'init', ['WPYS_Taxonomy','add'] );
+add_action( 'init', [ 'WPYS_Taxonomy', 'init' ] );
