@@ -1,0 +1,20 @@
+{
+  "name": "wp-youtube-sync",
+  "homepage": "https://github.com/smilight/wp-youtube-sync",
+  "authors": [
+    "smilight <shensi@ukr.net>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "mediaelement": "^4.2.7"
+  }
+}

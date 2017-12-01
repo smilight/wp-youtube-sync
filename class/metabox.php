@@ -6,6 +6,9 @@ abstract class WPYS_Meta_Box {
 
 	public static function add() {
 
+		/**
+		 * Add metaboxes for "youtube_video" post type
+		 */
 		$cmb = new_cmb2_box( array(
 			'id'           => 'wpys_metabox',
 			'title'        => __( 'Youtube Video Metadata', 'wp-youtube-sync' ),
@@ -48,6 +51,30 @@ abstract class WPYS_Meta_Box {
 				'disabled' => 'disabled',
 				'readonly' => 'readonly',
 			)
+		) );
+
+
+		/**
+		 * Add metaboxes for "category_youtubeChanel" tag
+		 */
+		$cmb_term = new_cmb2_box( array(
+			'id'               => self::$optionsKey . '_category_metabox',
+			'title'            => __( 'Playlist Id', 'wp-youtube-sync' ),
+			'object_types'     => array( 'term' ),
+			'taxonomies'       => array( 'category_youtubeChanel' ),
+			 'new_term_section' => true, // Will display in the "Add New Category" section
+		) );
+
+		$cmb_term->add_field( array(
+			'name'       => __( 'Playlist Id', 'wp-youtube-sync' ),
+			'desc'       => __( 'Youtube video playlist id', 'wp-youtube-sync' ),
+			'id'         => self::$optionsKey . '_category_playlistId',
+			'type'       => 'text',
+//			'attributes' => array(
+//				'disabled' => 'disabled',
+//				'readonly' => 'readonly',
+//			)
+
 		) );
 
 	}

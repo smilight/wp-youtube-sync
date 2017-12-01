@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Madcoda\\Youtube\\' => array($vendorDir . '/madcoda/php-youtube-api/src'),
+    'Cocur\\Slugify\\' => array($vendorDir . '/cocur/slugify/src'),
 );

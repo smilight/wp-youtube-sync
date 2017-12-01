@@ -54,7 +54,7 @@ abstract class WPYS_Options {
 	}
 
 	public static function get_option( $key = '', $default = false ) {
-		var_dump( self::$adminOptionKey );
+
 		if ( function_exists( 'cmb2_get_option' ) ) {
 			return cmb2_get_option( self::$adminOptionKey, $key, $default );
 		}

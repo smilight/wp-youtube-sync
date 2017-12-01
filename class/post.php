@@ -1,6 +1,8 @@
 <?php
 
 use Madcoda\Youtube\Youtube;
+use Cocur\Slugify\Slugify;
+
 
 abstract class WPYS_Post {
 	public static function add( $playlist_item ) {
@@ -9,24 +11,26 @@ abstract class WPYS_Post {
 
 		$videoId = $playlist_item->snippet->resourceId->videoId;
 
+		$title = $playlist_item->snippet->title;
+
 		$playlistId = $playlist_item->snippet->playlistId;
+
+		$image = $playlist_item->snippet->thumbnails->high->url;
 
 		$catExist = 1;
 
 		$videoPost = [
-			'post_title'   => $playlist_item->snippet->title,
-			'post_content' => $playlist_item->snippet->description,
+			'post_title'   => $title,
+			'post_content' => '<div class="youtube_placeholder" data-id="' . $videoId . '" data-playlist="' . $playlistId . '" data-image="' . $image . '"></div>' . $playlist_item->snippet->description,
 			'post_status'  => 'publish',
 			'post_type'    => 'youtube_video',
 			'post_author'  => 1
 		];
 
 		if ( WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_create_playlists' ) === 'yes' ) {
-			$catExist                   = WPYS_Taxonomy::checkExist( $youtube->getPlaylistById( $playlistId )->snippet->title );
+			$catExist                   = WPYS_Taxonomy::checkExist( $youtube->getPlaylistById( $playlistId )->snippet->title, $playlistId );
 			$videoPost['post_category'] = intval( $catExist );
 		}
-
-		$image = $playlist_item->snippet->thumbnails->high->url;
 
 		$exist = WPYS_Post::checkExist( $videoId );
 
@@ -34,11 +38,11 @@ abstract class WPYS_Post {
 
 			$postId = wp_insert_post( $videoPost );
 
-			WPYS_Post::addFeaturedImage( $image, $postId );
+			WPYS_Post::addFeaturedImage( $image, $postId, $title );
 
 			add_post_meta( $postId, WPYS_METABOX_KEY . '_videoId', $videoId, true );
-			add_post_meta( $postId, WPYS_METABOX_KEY . '_playlistId', $playlistId, false );
-			add_post_meta( $postId, WPYS_METABOX_KEY . '_thumbnailUrl', $image, false );
+			add_post_meta( $postId, WPYS_METABOX_KEY . '_playlistId', $playlistId, true );
+			add_post_meta( $postId, WPYS_METABOX_KEY . '_thumbnailUrl', $image, true );
 
 			if ( WPYS_Options::get_option( WPYS_OPTIONS_KEY . '_create_playlists' ) === 'yes' ) {
 				WPYS_Taxonomy::addToPost( $postId, $catExist );
@@ -51,8 +55,8 @@ abstract class WPYS_Post {
 			wp_update_post( $videoPost );
 
 			update_post_meta( $exist, WPYS_METABOX_KEY . '_videoId', $videoId, true );
-			update_post_meta( $exist, WPYS_METABOX_KEY . '_playlistId', $playlist_item->snippet->playlistId, false );
-			update_post_meta( $exist, WPYS_METABOX_KEY . '_thumbnailUrl', $image, false );
+			update_post_meta( $exist, WPYS_METABOX_KEY . '_playlistId', $playlist_item->snippet->playlistId, true );
+			update_post_meta( $exist, WPYS_METABOX_KEY . '_thumbnailUrl', $image, true );
 
 		}
 
@@ -77,15 +81,19 @@ abstract class WPYS_Post {
 
 	}
 
-	public static function addFeaturedImage( $image_url, $post_id ) {
+	public static function addFeaturedImage( $image_url, $post_id, $postTitle = '' ) {
 		$upload_dir = wp_upload_dir();
 
+		$slugify = new Slugify();
+		echo $slugify->slugify( $postTitle );
 		if ( ! file_exists( $upload_dir['path'] ) && ! is_dir( $upload_dir['path'] ) ) {
 			mkdir( $upload_dir['path'], 0755, true );
 		}
 
 		$image_data = file_get_contents( $image_url );
-		$filename   = basename( $image_url );
+
+		$filename = $slugify->slugify( $postTitle ) . '-' . time() . '-' . basename( $image_url );
+
 		if ( wp_mkdir_p( $upload_dir['path'] ) ) {
 			$file = $upload_dir['path'] . '/' . $filename;
 		} else {

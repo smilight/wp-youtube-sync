@@ -30,7 +30,7 @@ abstract class WPYS_Post_Type {
 				'comments',
 			),
 			'taxonomies'          => array( 'category_youtubeChanel' ),
-			'hierarchical'        => false,
+			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
@@ -41,7 +41,7 @@ abstract class WPYS_Post_Type {
 			'has_archive'         => true,
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
-			'capability_type'     => 'page',
+			'capability_type'     => 'post',
 		);
 
 		register_post_type( 'youtube_video', $args );

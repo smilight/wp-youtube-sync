@@ -10,14 +10,19 @@ abstract class WPYS_Taxonomy {
 
 	}
 
-	public static function checkExist( $termName ) {
+	public static function checkExist( $termName,$playListId ) {
 
 		$term = term_exists( $termName, 'category_youtubeChanel' );
 
 		if ( $term !== 0 && $term !== null ) {
+
+			add_term_meta( $term['term_id'], WPYS_METABOX_KEY . '_category_playlistId', $playListId, true );
+
 			return $term['term_id'];
 		} else {
 			$newTerm = wp_insert_term( $termName, 'category_youtubeChanel' );
+
+			add_term_meta( $newTerm['term_id'], WPYS_METABOX_KEY . '_category_playlistId', $playListId, true );
 
 			return $newTerm['term_id'];
 		}
